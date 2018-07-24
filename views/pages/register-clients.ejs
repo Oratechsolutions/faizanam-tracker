@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Register Clients || Faizanam </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Coderthemes" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <!-- App css -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="/css/metismenu.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+    <script src="/js/modernizr.min.js"></script>
+
+</head>
+
+
+<body>
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="left side-menu">
+
+            <% include ../partials/sidebar %>
+                <!-- Sidebar -left -->
+
+        </div>
+        <!-- Left Sidebar End -->
+
+
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+
+            <!-- Top Bar Start -->
+            <div class="topbar">
+
+                <nav class="navbar-custom">
+
+                    <% include ../partials/navbar %>
+
+                </nav>
+
+            </div>
+            <!-- Top Bar End -->
+
+
+
+            <!-- Start Page content -->
+            <div class="content">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card-box">
+                                        <h4 class="m-t-0 header-title">Add New Clients</h4>
+                                        <p class="text-muted m-b-30 font-14">
+Add A New Client                                         </p>
+                                        <form class="" method="POST" action="/auth/register-clients" enctype="multipart/form-data">
+                                            <div class="p-20">
+                                                <div class="form-group row">
+                                                    <div class="col-6">
+                                                        <input type="text" name="client_name" id="example-input-normal" class="form-control" required placeholder="Enter the Company Name">
+                                                    </div>
+
+                                                    <div class="col-6">
+                                                        <select class="form-control" required name="client_industry">
+                                                                <option>Select Industry:</option>
+                                                                <option value="communications">Communications</option>
+                                                                <option value="health">Health</option>
+                                                                <option value="food_production">Food Production</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-6">
+                                                        <input type="email" name="client_email" id="example-input-normal" class="form-control" required placeholder="Enter the Contact Email">
+                                                    </div>
+
+                                                    <div class="col-6">
+                                                        <input type="text" name="client_phone" id="example-input-normal" class="form-control" required placeholder="Enter the Contact  Number">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <div class="col-6">
+                                                        <input type="text" name="client_location" id="example-input-normal" class="form-control" required placeholder="Enter Client Location">
+                                                    </div>
+
+                                                    <div class="col-6 input-group">
+
+                                                        <input type="url" class="form-control" name="client_website" id="url" placeholder="https://example.com" pattern="https://.*" size="20" required>
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text">
+                                                                <i class="mdi mdi-calendar"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-12">
+                                                        <input type="file" name="client_image" class="form-control" required>
+                                                    </div>
+                                                
+                                                </div>
+
+
+                     
+                                                <div class="form-group row">
+                                                    <button type="submit" class="btn btn-block btn-xs btn-primary waves-effect waves-light">Register Client</button>
+                                                </div>
+                                        </form>
+                                        </div>
+                                    </div>
+                                    <!-- end card-box -->
+                                </div>
+                                <!-- end col -->
+                            </div>
+                            <!-- end row -->
+                        </div>
+                        <!-- end col -->
+
+                        <div class="col-md-3">
+                            <div class="card-box">
+                                <h4 class="header-title m-b-30">Subscribed Clients </h4>
+
+                                <div id="clientele">
+
+                                </div>
+                                
+                            </div>
+                            <div class="form-group row">
+                            <a href="view-clients"><button type="button" class="btn btn-block btn-xs btn-info waves-effect waves-light">View All</button></a>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+
+                </div>
+                <!-- container -->
+
+            </div>
+            <!-- content -->
+
+            <footer class="footer text-right">
+                <% include ../partials/footer%>
+            </footer>
+
+        </div>
+
+
+        <!-- ============================================================== -->
+        <!-- End Right content here -->
+        <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+
+
+
+    <!-- jQuery  -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/metisMenu.min.js"></script>
+    <script src="/js/waves.js"></script>
+    <script src="/js/jquery.slimscroll.js"></script>
+
+    <!-- App js -->
+    <script src="/js/jquery.core.js"></script>
+    <script src="/js/jquery.app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/data/subscribedclients').then(res => res.json()).then(data => {
+                // we now have the data
+                let li = ''
+                Array.from(data).forEach(list => {
+                    li += `
+                            <div class="media m-b-20">
+                                <div class="d-flex mr-3">
+                                    <a href="#">
+                                        <img class="media-object rounded-circle thumb-sm" alt="64x64" src="${list.client_image.split('public')[1]}"> </a>
+                                </div>
+                                <div class="media-body">
+                                    <h5 class="mt-0">${list.client_name}</h5>
+                                    <p class="font-13 text-muted mb-0">
+                                        <a href="" class="text-dark">${list.client_phone}</a>
+                                    </p>
+                                </div>
+                            </div>
+                        `
+                })
+                document.getElementById('clientele').innerHTML = li
+                console.log(data)
+            })
+        })
+
+    </script>
+
+</body>
+
+</html>

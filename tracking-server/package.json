@@ -1,0 +1,26 @@
+{
+  "name": "transport-tracker-server",
+  "version": "1.0.0",
+  "description": "server file for transport tracker ",
+  "main": "main.js",
+  "scripts": {
+    "main": "node main.js",
+    "generate_paths": "node generate_paths.js",
+    "prettier": "for file in *.js; do prettier --write --single-quote --bracket-spacing=false $file; done"
+  },
+  "author": "vic ambuyo",
+  "license": "ISC",
+  "dependencies": {
+    "@google/maps": "^0.5.0",
+    "@mapbox/polyline": "^1.0.0",
+    "asyncawait": "^1.0.7",
+    "bluebird": "^3.5.1",
+    "csv-parse": "^2.5.0",
+    "firebase-admin": "^5.12.1",
+    "moment": "^2.22.2",
+    "sqlite3": "^4.0.1"
+  },
+  "devDependencies": {
+    "prettier": "^1.13.5"
+  }
+}

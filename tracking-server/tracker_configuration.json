@@ -1,0 +1,5 @@
+{
+	"mapsApiKey": "AIzaSyD6XSGWc_AJgPAsBtJQ-O_puhzQzH2sl3A",
+	"databaseURL": "https://security-tracker-7fe79.firebaseio.com",
+	"simulation": true
+}

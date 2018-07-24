@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Guards Status || Faizanam Company <fieldset disabled="disabled"></fieldset></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+        <meta content="Coderthemes" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="/images/favicon.ico">
+
+        <!-- App css -->
+        <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="/css/icons.css" rel="stylesheet" type="text/css" />
+        <link href="/css/metismenu.min.css" rel="stylesheet" type="text/css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <script src="/js/modernizr.min.js"></script>
+
+    </head>
+
+
+    <body>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+
+            <!-- ========== Left Sidebar Start ========== -->
+            <div class="left side-menu">
+                    <% include ../partials/sidebar %>
+            </div>
+            <!-- Left Sidebar End -->
+
+
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+
+                <!-- Top Bar Start -->
+                <div class="topbar">
+
+                    <nav class="navbar-custom">
+                    <% include ../partials/navbar %>
+                     </nav>
+
+                </div>
+                <!-- Top Bar End -->
+
+                <!-- Start Page content -->
+                <div class="content">
+                    <div class="container-fluid">
+                
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card-box">
+                                    <h4 class="header-title">System Users</h4>
+            
+                
+                
+                                    <table class="table table-hover m-0 tickets-list table-actions-bar dt-responsive nowrap" cellspacing="0" width="100%" id="datatable">
+                                        <thead>
+                                            <tr>
+                                                <th>Tracker ID</th>
+                                                <th>Guard Info</th>                                                <th> Client  Logo</th>
+                                                <th>Client Name</th>
+                                                <th>Status</th>
+                                                <th>Created Date</th>
+                                                <th>Due Date</th>
+                                                <th class="hidden-sm">Action</th>
+                                            </tr>
+                                        </thead>
+                
+                           <tbody id="guard_status">
+                                                                            
+                           </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- end col -->
+                        </div>
+                        <!-- end row -->
+                
+                    </div>
+                    <!-- container -->
+                
+                </div>
+                <!-- content -->
+
+                <footer class="footer text-right">
+                    <% include ../partials/footer %>
+                </footer>
+
+            </div>
+
+
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- END wrapper -->
+
+
+
+        <!-- jQuery  -->
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/popper.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/metisMenu.min.js"></script>
+        <script src="/js/waves.js"></script>
+        <script src="/js/jquery.slimscroll.js"></script>
+
+        <!-- Flot chart -->
+        <script src="/plugins/flot-chart/jquery.flot.min.js"></script>
+        <script src="/plugins/flot-chart/jquery.flot.time.js"></script>
+        <script src="/plugins/flot-chart/jquery.flot.tooltip.min.js"></script>
+        <script src="/plugins/flot-chart/jquery.flot.resize.js"></script>
+        <script src="/plugins/flot-chart/jquery.flot.pie.js"></script>
+        <script src="/plugins/flot-chart/jquery.flot.crosshair.js"></script>
+        <script src="/plugins/flot-chart/curvedLines.js"></script>
+        <script src="/plugins/flot-chart/jquery.flot.axislabels.js"></script>
+
+        <!-- KNOB JS -->
+        <!--[if IE]>
+        <script type="text/javascript" src="/plugins/jquery-knob/excanvas.js"></script>
+        <![endif]-->
+        <script src="/plugins/jquery-knob/jquery.knob.js"></script>
+
+        <!-- Dashboard Init -->
+        <script src="/pages/jquery.dashboard.init.js"></script>
+
+        <!-- App js -->
+        <script src="/js/jquery.core.js"></script>
+        <script src="/js/jquery.app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/data/registeredguards').then(res => res.json()).then(data => {
+                // we now have the data
+                let tr = ''
+                Array.from(data).forEach(list => {
+                    tr += `<tr>
+
+                        <td><b>#${list.emp_number}</b></td>
+
+                        <td><a href="javascript: void(0);"><img src="${list.profile_picture.split('public')[1]}" alt="contact-img" title="contact-img" class="rounded-circle" />
+                            <span class="ml-2">${list.firstname} ${list.lastname}</span></a></td>
+                
+                            <td><a href="javascript: void(0);">
+                                                        <img src="${list.profile_picture.split('public')[1]}" alt="contact-img" title="contact-img" class="rounded-circle" />
+                                                    </a>
+                                                </td>
+                                                                            <td>
+                                                   ${list.firstname} ${list.lastname}
+                                                </td>
+                
+                                                <td>
+                                                    <span class="badge badge-danger">High</span>
+                                                </td>
+                
+                                                <td>
+                                                    <span class="badge badge-success">Open</span>
+                                                </td>
+                
+                                                <td>
+                                                    2017/04/20
+                                                </td>
+                
+                                                <td>
+                                                    2017/04/25
+                                                </td>
+                
+                                                <td>
+                                                    <div class="btn-group dropdown">
+                                                        <a href="javascript: void(0);" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            <i class="mdi mdi-dots-horizontal"></i>
+                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <a class="dropdown-item" href="#">
+                                                                <i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit Ticket</a>
+                                                            <a class="dropdown-item" href="#">
+                                                                <i class="mdi mdi-check-all mr-2 text-muted font-18 vertical-middle"></i>Close</a>
+                                                            <a class="dropdown-item" href="#">
+                                                                <i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</a>
+                                                            <a class="dropdown-item" href="#">
+                                                                <i class="mdi mdi-star mr-2 font-18 text-muted vertical-middle"></i>Mark as Unread</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+
+
+
+
+
+</tr>
+                    `
+                })
+                document.getElementById('guard_status').innerHTML = tr
+                console.log(data)
+            })
+        })
+
+    </script>
+
+        
+    </body>
+</html>

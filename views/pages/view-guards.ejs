@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>View Guards || Faizanam </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Coderthemes" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <!-- App css -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="/css/metismenu.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+    <script src="/js/modernizr.min.js"></script>
+
+</head>
+
+
+<body>
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="left side-menu">
+
+            <% include ../partials/sidebar %>
+                <!-- Sidebar -left -->
+
+        </div>
+        <!-- Left Sidebar End -->
+
+
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+
+            <div class="content-page">
+
+            <!-- Top Bar Start -->
+            <div class="topbar">
+            
+                <nav class="navbar-custom">
+            
+                    <% include ../partials/navbar %>
+            
+                </nav>
+            
+            </div>
+            <!-- Top Bar End -->
+
+
+
+                <!-- Start Page content -->
+                <div class="content">
+                    <div class="container-fluid">
+                
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card-box table-responsive">
+                                    <h4 class="m-t-0 header-title">REGISTERED SECURITY GUARDS </h4>
+                                    <p class="text-muted font-14 m-b-30">
+                                        Faizanam Registered Guards 
+                                    </p>
+                
+                                    <table id="datatable" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Name</th>
+                                                <th>ID Number</th>
+                                                <th>User Email</th>
+                                                <th>User Phone </th>
+                                                <th>Emp Number</th>
+                                                <th>Tracker ID</th>
+                                                <th>Profile</th>
+                                            </tr>
+                                        </thead>
+                
+                
+                                        <tbody id="profile_info">
+                                          
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+                
+                    </div>
+                    <!-- container -->
+                
+                </div>
+                <!-- content -->
+
+                <footer class="footer text-right">
+                                <% include ../partials/footer%>
+                </footer>
+
+            </div>
+            <!-- content -->
+
+            <footer class="footer text-right">
+                <% include ../partials/footer%>
+            </footer>
+
+        </div>
+
+
+        <!-- ============================================================== -->
+        <!-- End Right content here -->
+        <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+
+
+
+    <!-- jQuery  -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/metisMenu.min.js"></script>
+    <script src="/js/waves.js"></script>
+    <script src="/js/jquery.slimscroll.js"></script>
+
+    <!-- App js -->
+    <script src="/js/jquery.core.js"></script>
+    <script src="/js/jquery.app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/data/registeredguards').then(res => res.json()).then(data => {
+                // we now have the data
+                let tr = ''
+                Array.from(data).forEach(list => {
+                    tr += `<tr>
+                                            <td> <span>
+                <img src="${list.profile_picture.split('public')[1]}" alt="" height="42" class="media-object rounded-circle thumb-sm" alt="64x64">
+            </span></td>
+                                            <td>${list.firstname} ${list.lastname}</td>
+                                            <td>${list.id_number}</td>
+                                            <td>${list.email}</td>
+                                            <td>${list.phone}</td>
+                                            <td>${list.emp_number}</td>
+                                            <td>${list.tracker_id}</td>
+                                            <td><button type="button" class="btn btn-info btn-rounded waves-light waves-effect">Info</button>
+</td></tr>
+                    `
+                })
+                document.getElementById('profile_info').innerHTML = tr
+                console.log(data)
+            })
+        })
+
+    </script>
+
+</body>
+
+</html>

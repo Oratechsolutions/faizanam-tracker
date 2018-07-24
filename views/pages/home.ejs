@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Dashboard || Faizanam Company <fieldset disabled="disabled"></fieldset></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+        <meta content="Coderthemes" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="/images/favicon.ico">
+
+        <!-- App css -->
+        <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="/css/icons.css" rel="stylesheet" type="text/css" />
+        <link href="/css/metismenu.min.css" rel="stylesheet" type="text/css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <script src="/js/modernizr.min.js"></script>
+
+    </head>
+
+
+    <body>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+
+            <!-- ========== Left Sidebar Start ========== -->
+            <div class="left side-menu">
+                    <% include ../partials/sidebar %>
+            </div>
+            <!-- Left Sidebar End -->
+
+
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+
+                <!-- Top Bar Start -->
+                <div class="topbar">
+
+                    <nav class="navbar-custom">
+                    <% include ../partials/navbar %>
+                     </nav>
+
+                </div>
+                <!-- Top Bar End -->
+
+                <!-- Start Page content -->
+                <div class="content">
+                    <div class="container-fluid">
+                
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card-box">
+                                    <h4 class="header-title">System Users</h4>
+                
+                                    <div class="text-center mt-4 mb-4">
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-3">
+                                                <div class="card-box widget-flat border-custom bg-custom text-white">
+                                                    <i class="fi-tag"></i>
+                                                    <h3 class="m-b-10" id="on_duty"></h3>
+                                                    <p class="text-uppercase m-b-5 font-13 font-600">Total Clients</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-3">
+                                                <div class="card-box bg-primary widget-flat border-primary text-white">
+                                                    <i class="fi-archive"></i>
+                                                    <h3 class="m-b-10" id="totalGuards"></h3>
+                                                    <p class="text-uppercase m-b-5 font-13 font-600">Total Guards </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-3">
+                                                <div class="card-box widget-flat border-success bg-success text-white">
+                                                    <i class="fi-help"></i>
+                                                    <h3 class="m-b-10">18361</h3>
+                                                    <p class="text-uppercase m-b-5 font-13 font-600">OFF DUTY GUARDS </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-3">
+                                                <div class="card-box bg-danger widget-flat border-danger text-white">
+                                                    <i class="fi-delete"></i>
+                                                    <h3 class="m-b-10">250</h3>
+                                                    <p class="text-uppercase m-b-5 font-13 font-600">ON DUTY GUARDS </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                                </div>
+                            </div>
+                            <!-- end col -->
+                        </div>
+                        <!-- end row -->
+                
+                    </div>
+                    <!-- container -->
+                
+                </div>
+                <!-- content -->
+
+                <footer class="footer text-right">
+                    <% include ../partials/footer %>
+                </footer>
+
+            </div>
+
+
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- END wrapper -->
+
+
+
+        <!-- jQuery  -->
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/popper.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/metisMenu.min.js"></script>
+        <script src="/js/waves.js"></script>
+        <script src="/js/jquery.slimscroll.js"></script>
+
+        <!-- Flot chart -->
+        <script src="/plugins/flot-chart/jquery.flot.min.js"></script>
+        <script src="/plugins/flot-chart/jquery.flot.time.js"></script>
+        <script src="/plugins/flot-chart/jquery.flot.tooltip.min.js"></script>
+        <script src="/plugins/flot-chart/jquery.flot.resize.js"></script>
+        <script src="/plugins/flot-chart/jquery.flot.pie.js"></script>
+        <script src="/plugins/flot-chart/jquery.flot.crosshair.js"></script>
+        <script src="/plugins/flot-chart/curvedLines.js"></script>
+        <script src="/plugins/flot-chart/jquery.flot.axislabels.js"></script>
+
+        <!-- KNOB JS -->
+        <!--[if IE]>
+        <script type="text/javascript" src="/plugins/jquery-knob/excanvas.js"></script>
+        <![endif]-->
+        <script src="/plugins/jquery-knob/jquery.knob.js"></script>
+
+        <!-- Dashboard Init -->
+        <script src="/pages/jquery.dashboard.init.js"></script>
+
+        <!-- App js -->
+        <script src="/js/jquery.core.js"></script>
+        <script src="/js/jquery.app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/data/clientsCount').then(res => res.json()).then(data => {
+                //list fetched 
+                console.log(typeof 'data')
+                document.getElementById('on_duty').innerText= data[0].clientsCount
+            })
+            fetch('/data/guardsCount').then(res => res.json()).then(data => {
+                //list fetched 
+                console.log(data)
+                document.getElementById('totalGuards').innerText = data[0].guardsCount
+            })
+        })
+    </script>
+    </body>
+</html>

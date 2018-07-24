@@ -1,0 +1,22 @@
+{
+  "name": "faizanam",
+  "version": "1.0.0",
+  "description": "security firm management",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "datatables.net-autofill-dt": "^2.3.1",
+    "datatables.net-dt": "^1.10.19",
+    "ejs": "^2.5.8",
+    "express": "^4.16.3",
+    "firebase": "^5.2.0",
+    "formidable": "^1.2.1",
+    "multer": "^1.3.1",
+    "mysql": "^2.15.0"
+  }
+}
