@@ -1,5 +1,5 @@
-const { Router} = require('express'),
-router = Router()
+let express = require('express'),
+    router = express.Router()
 
 
 //rendering dashboard pages 
@@ -8,30 +8,33 @@ router.get('/home', (req, res) => {
     res.render('pages/home')
 })
 
-router.get('/register-guards',(req, res)=>{
+router.get('/register-guards', (req, res) => {
     res.render('pages/register-guards')
 })
 
-router.get('/register-clients', (req, res)=>{
+router.get('/register-clients', (req, res) => {
     res.render('pages/register-clients')
-})  
+})
 
 router.get('/view-clients', (req, res) => {
     res.render('pages/view-clients')
-})  
+})
 
 router.get('/view-guards', (req, res) => {
     res.render('pages/view-guards')
-})  
+})
 
 router.get('/view-you', (req, res) => {
     res.render('pages/view-you')
-})  
-router.get('/guards-status', (req, res) =>{
+})
+router.get('/guards-status', (req, res) => {
     res.render('pages/guards-status')
 })
 router.get('/admin-status', (req, res) => {
     res.render('pages/admin-status')
+})
+router.get('/geolocation', (req, res) => {
+    res.render('pages/geolocation')
 })
 
 module.exports = router

@@ -1,6 +1,5 @@
-
-    var runMaps = function () {
-            if (navigator.geolocation) {
+var runMaps = function () {
+    if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
 
             map = new google.maps.Map(document.getElementById('map'), {

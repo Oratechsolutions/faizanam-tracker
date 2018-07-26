@@ -1,18 +1,5 @@
 var firebase = require("firebase")
-let db = require('../config/dbconnect');
-// Initialize Firebase
-var config = {
-    apiKey: "AIzaSyCVSMH14cJOMRkGCAFQq0o-3l7fyFYZaUc",
-    authDomain: "tracker-project-c8401.firebaseapp.com",
-    databaseURL: "https://tracker-project-c8401.firebaseio.com",
-    projectId: "tracker-project-c8401",
-    storageBucket: "tracker-project-c8401.appspot.com",
-    messagingSenderId: "188252959383"
-}
-firebase.initializeApp(config)
-// Get a reference to the database service
-var database = firebase.database()
-
+let db = require('../config/dbconnect')
 /**
  * 
  * @param {Request} req 
@@ -24,7 +11,7 @@ function Login(req, res) {
             res.redirect('/?unauthorized')
         }
         // start session
-        res.render('pages/home')
+        res.redirect('/pages/home')
     })
 }
 
@@ -42,7 +29,9 @@ function Register(req, res) {
         id_number: req.body.user_id_number
     }
     db.query(`insert into users set ?`, credentials, (result) => {
-        (result.affectedRows == 1) ? res.redirect('/?registeredsuccessfully') : res.end(JSON.stringify({ message: 'failed' }))
+        (result.affectedRows == 1) ? res.redirect('/?registeredsuccessfully'): res.end(JSON.stringify({
+            message: 'failed'
+        }))
     })
 }
 
@@ -70,7 +59,6 @@ async function fetchClientId() {
 async function addGuard(req, res) {
     let empnumber = await fetchEmpNo(),
         newEmpNumber = 'EMP-00' + (empnumber + 1)
-    console.log(newEmpNumber)
 
     let credentials = {
         firstname: req.body.firstname,
@@ -81,9 +69,11 @@ async function addGuard(req, res) {
         dob: req.body.dob,
         profile_picture: req.file.path,
         emp_number: newEmpNumber
-}
+    }
     db.query(`insert into security_guards set ?`, credentials, (result) => {
-        (result.affectedRows == 1) ? res.redirect('/pages/register-guards?registeredsuccessfully') : res.end(JSON.stringify({ message: 'failed creating new guard account' }))
+        (result.affectedRows == 1) ? res.redirect('/pages/register-guards?registeredsuccessfully'): res.end(JSON.stringify({
+            message: 'failed creating new guard account'
+        }))
     })
 }
 
@@ -115,7 +105,7 @@ function registerGuard(phone, email, id_number, newEmpNumber) {
  */
 async function addClient(req, res) {
     let client_id = await fetchClientId(),
-    newClientId = 'CLI-00' + (client_id + 1)
+        newClientId = 'CLI-00' + (client_id + 1)
     let credentials = {
         client_name: req.body.client_name,
         client_industry: req.body.client_industry,
@@ -124,11 +114,13 @@ async function addClient(req, res) {
         client_location: req.body.client_location,
         client_website: req.body.client_website,
         client_image: req.file.path,
-        client_tracker_id : newClientId
+        client_tracker_id: newClientId
 
     }
     db.query(`insert into client_companies set ?`, credentials, (result) => {
-        (result.affectedRows == 1) ? res.redirect('/pages/register-clients?newclientadded') : res.end(JSON.stringify({ message: 'failed registering client' }))
+        (result.affectedRows == 1) ? res.redirect('/pages/register-clients?newclientadded'): res.end(JSON.stringify({
+            message: 'failed registering client'
+        }))
     })
 }
 
@@ -172,12 +164,39 @@ function countClients(req, res) {
  * @param {Request} req 
  * @param {Response} res 
  */
-
 function countGuards(req, res) {
     db.query(`select count(*) as guardsCount from security_guards`, (results) => {
         res.end(JSON.stringify(results))
     })
 }
 
+/**
+ * 
+ * @param {Request} req 
+ * @param {Response} res 
+ */
+async function retrieveGuardDataFromFirebase(req, res) {
+    let data = await (function () {
+        return new Promise((resolve, reject) => {
+            firebase.database().ref('/raw-locations/Asd').on('value', snapshot => resolve(snapshot.val()))
+        })
+    })()
 
-module.exports = { Login, Register, addGuard, addClient, fetchGuards, fetchClients, countClients, countGuards, fetchEmpNo, fetchClientId, registerGuard }
+    res.end(JSON.stringify(data))
+}
+
+
+module.exports = {
+    Login,
+    Register,
+    addGuard,
+    addClient,
+    fetchGuards,
+    fetchClients,
+    countClients,
+    countGuards,
+    fetchEmpNo,
+    fetchClientId,
+    registerGuard,
+    retrieveGuardDataFromFirebase
+}
