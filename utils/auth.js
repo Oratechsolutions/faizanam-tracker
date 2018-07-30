@@ -70,6 +70,11 @@ async function addGuard(req, res) {
         profile_picture: req.file.path,
         emp_number: newEmpNumber
     }
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+    })
+
     db.query(`insert into security_guards set ?`, credentials, (result) => {
         (result.affectedRows == 1) ? res.redirect('/pages/register-guards?registeredsuccessfully'): res.end(JSON.stringify({
             message: 'failed creating new guard account'

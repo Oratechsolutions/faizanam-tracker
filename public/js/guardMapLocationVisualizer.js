@@ -47,6 +47,9 @@
 
     let socket = new WebSocket('ws://127.0.0.1:5000')
     socket.addEventListener('open', function (event) {
-        console.log(event)
+        console.log(event.target)
     })
+    socket.onmessage=function(message){
+    
+    }
 })
