@@ -1,5 +1,17 @@
-var firebase = require("firebase")
-let db = require('../config/dbconnect')
+const firebase = require("firebase")
+const db = require('../config/dbconnect')
+const server = require('../app').server
+const WebSocket = require('websocket').server
+const socketServer = new WebSocket({
+    httpServer: server
+})
+
+socketServer.on('connect', function (conn) {
+    conn.on('message', function (data) {
+        console.log(data)
+    })
+    console.log('Connected', socketServer.connections)
+})
 /**
  * 
  * @param {Request} req 
@@ -178,10 +190,10 @@ function countGuards(req, res) {
 async function retrieveGuardDataFromFirebase(req, res) {
     let data = await (function () {
         return new Promise((resolve, reject) => {
-            firebase.database().ref('/raw-locations/Asd').on('value', snapshot => resolve(snapshot.val()))
+            firebase.database().ref('/raw-locations/').on('value', snap => resolve(snap))
         })
-    })()
-
+    })().catch(err => console.log(err))
+    console.log(data)
     res.end(JSON.stringify(data))
 }
 
