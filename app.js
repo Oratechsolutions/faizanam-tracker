@@ -2,18 +2,13 @@
 var http = require('http')
 var multer = require('multer')
 var firebase = require('firebase')
-var WebSocket = require('ws')
 var cors = require('cors')
 
 // Initialize Firebase
 if (!firebase.apps.length) {
     firebase.initializeApp({
-        apiKey: "AIzaSyCVSMH14cJOMRkGCAFQq0o-3l7fyFYZaUc",
-        authDomain: "security-tracker-7fe79.firebaseapp.com",
-        databaseURL: "https://security-tracker-7fe79.firebaseio.com/",
-        projectId: "security-tracker-7fe79",
-        storageBucket: "security-tracker-7fe79.appspot.com",
-        messagingSenderId: "188252959383"
+        serviceAccount: __dirname + '/config/Faizanam-ef986f27cbc2.json',
+        databaseURL: 'https://faizanam-211422.firebaseio.com/'
     })
 }
 var express = require('express'),
@@ -22,9 +17,8 @@ var express = require('express'),
     PORT = process.env.PORT || 5000
 
 var server = http.createServer(app)
-var socketServer = new WebSocket.Server({
-    server: server
-})
+
+exports.server = server
 
 app.use(express.static(__dirname + '/public'))
 

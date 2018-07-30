@@ -10,7 +10,9 @@ var storage = multer.diskStorage({
         cb(null, file.fieldname + '-' + Date.now())
     }
 });
-var upload = multer({ storage: storage });
+var upload = multer({
+    storage: storage
+});
 
 
 
@@ -18,29 +20,29 @@ router.post('/login', (req, res) => {
     auth.Login(req, res)
 })
 
-router.post('/register',  (req, res) => {
- 
+router.post('/register', (req, res) => {
+
     auth.Register(req, res)
 })
 
-router.post('/register-clients', upload.single('client_image'), (req, res) =>{
+router.post('/register-clients', upload.single('client_image'), (req, res) => {
     console.log('-----------------------request-------------------------------')
     console.log(req.file.path)
     auth.addClient(req, res)
 })
 
-router.post('/register-guards', upload.single('profile_picture'), (req, res) =>{
+router.post('/register-guards', upload.single('profile_picture'), (req, res) => {
     console.log('-------------------request----------------')
     console.log(req.file.path)
     auth.addGuard(req, res)
 })
 
-router.post('/register-guards-firebase',(req, res) => {
+router.post('/register-guards-firebase', (req, res) => {
     console.log('-------------------request----------------')
     auth.registerGuard(req, res)
 })
 
-router.post('/home', (req, res) =>{
+router.post('/home', (req, res) => {
     auth.countClients(req, res)
 })
 

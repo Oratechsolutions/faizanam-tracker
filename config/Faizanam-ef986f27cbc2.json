@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "faizanam-211422",
+  "private_key_id": "ef986f27cbc2022e682367e00a37286806d6f171",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCsmjFXOsO7tX4s\n0nfOXA5c4EcwJinfFu6bs1bragjCtBVooAdsSIvlY0VoOk8fjGYp0USdFG7qXg88\nquvfY0odf3UN7Efwyp/gAuz5IkR2Z+J97gkoQwzPEVgdaS4DR+pfoG6TZawr8Jny\nVZmO7h3dE/u8w1K2WqCiCJGocZBpU5e6uQv+ktBBUvmYT1nJGL79pnwEKCMYz4O1\nttkVCfTdVlQphBovZjVzDWH735VDrS31BjDhItTTPUBv3lzSchMK2VxVdJdpjL+B\nh/E1xv29pXHfQXtdeOHMbV7xPIPG5sqcTSScabywMtyywqnXKpdFjwZwwhQfLeYJ\ncvBJKdoTAgMBAAECggEACe98TJ2k277ISxM4c0gISZ9daa+gtGdRB+RsafO6Gl8c\nZl/j3X9VkjhDLAtDN7kwvlJ+BR7Cfbo5XVAncL3567XFCq6hu4ImbtIsSvEGiNxV\nBNO5cjhd2eORM2w1ClpO6v9ErjZpkUPx0KnNw5UAYhP+5zBFKBsSaRFeNRiIbA+c\nFh6M6+80k1vKqaL30cxymqgEvMLj8t0eIY+JOM2kVEwKFzbYm53kU+BbYwn4F48K\n/3b/8ue2Jw4t9eTDvtvdavy7/fv3ZFYzXtUfClCKzuMfe1J/r2aqDUgMckPqlRaf\ntiKd9gLgVAH09M/TgRBrZ4etWmZ7z3ki60k9eND7ZQKBgQDUnNBzxxUGGa8fFMAQ\nbhpQCaZMhw1rRbhT5yym5zSilgqc1Q9CpaxX3n8KiyRBYG4957vK/As0iq6DLQGa\nMg8F7aUKbDnLJ5XH5Ux8faa2Lm8Z7EQ1XRXooXyFDYsrG753nMMmcCTiOIcfE2oV\nnHdlkb7GKLSkgGFUkoyNZqPcnQKBgQDP0y+bVt4mRRDvsOGJBgQBJj4L8fvT5rKN\nK1w8Zx2vQAswedE+py1VEAw8rUWvMNWDnKTcUPGwUGggTBNyEaMO0hLVK6IN9YPC\n+6SuRLmzmLef86tVJBdHezY41mbQIorV+8AjYpn+eY001VfPpdJGo/Z2xHM2ArEg\nWRCcfmZabwKBgBRkjiHswHl7US68AMgSp3dx1X+VnJXjdBCoJcJEfunxVkdAsFwG\nJAexkaHjQrD6nNhXN836auC5RI/Ua0js8D/zUVc0lj6EJ3uq5LE0JB9pSMLFxK0R\npp5Pju/8IpMZ8CTs5lLzgrYoEd3LMOutvE4DsrazBNCad7ty6wRNCf6JAoGANOnC\nHzzYxsmi7EQOyEJd1qUT+xqbUXJVV5gIneBrMGmP78G0Qs1xv0ycsP401cwLML07\nRFTflFKEkGSONubCq01VOi0nz4IJECXd4fjhhxaE+haiMsVDoBGA1qvP9YI18xFr\n9BZwutfb2e3Ps7C2fwHUCJ0v8DpzOpcyoYWVLcUCgYEAqXybPAaaLJjrdeT3D+9d\nTvaEklR5+PuAnMlIKC7RYQFWJudocqsZdmQH8mm+UV3ngetEo+kGtdOEpHmrsSZV\nAUseoDg5pCaCQQVnokbkcZKwYdeO3sTFWREOY2ky03TC3RrCwIFtrfwl0RLATQR7\n2CvmRebV5PZroEoVnMsal3M=\n-----END PRIVATE KEY-----\n",
+  "client_email": "faizanam-firebase@faizanam-211422.iam.gserviceaccount.com",
+  "client_id": "100992631161866990114",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/faizanam-firebase%40faizanam-211422.iam.gserviceaccount.com"
+}
