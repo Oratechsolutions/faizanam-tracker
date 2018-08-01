@@ -7,7 +7,7 @@ var cors = require('cors')
 // Initialize Firebase
 if (!firebase.apps.length) {
     firebase.initializeApp({
-        serviceAccount: __dirname + '/config/Faizanam-ef986f27cbc2.json',
+        serviceAccount: __dirname + '/config/Faizanam-aadbb21b37c0.json',
         databaseURL: 'https://faizanam-211422.firebaseio.com/'
     })
 }
@@ -42,7 +42,7 @@ var upload = multer({
 
 //setting the view engine to ejs
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs')
 
 //use res.render to load up an ejs file view
 

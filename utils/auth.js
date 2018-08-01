@@ -1,17 +1,39 @@
-const firebase = require("firebase")
+const firebase = require('firebase')
 const db = require('../config/dbconnect')
 const server = require('../app').server
-const WebSocket = require('websocket').server
-const socketServer = new WebSocket({
-    httpServer: server
+const WebSocketServer = require('websocket').server
+
+let socket = new WebSocketServer({
+    httpServer: server,
+    keepalive: true,
+    autoAcceptConnections: false
 })
 
-socketServer.on('connect', function (conn) {
-    conn.on('message', function (data) {
-        console.log(data)
-    })
-    console.log('Connected', socketServer.connections)
+let clients = []
+
+socket.on('request', function (request) {
+    let connection = request.accept(null, request.origin)
+    clients.push(connection)
 })
+
+// add a listener for new entries to firebase database,
+// this will create a custom socket event, which will trigger socket 'emit' event, and notify clients
+for (const event of ['child_added', 'child_removed', 'child_changed', 'child_moved']) {
+    firebase.database().ref().child('raw-locations').on(event, (snap) => {
+        socket.emit('guard', null)
+    })
+}
+
+
+socket.on('guard', async function () {
+    console.log('Client: ', clients.length)
+    firebase.database().ref().child('raw-locations').on('value', (snap) => {
+        for (const client of clients) {
+            client.send(JSON.stringify(snap.val()))
+        }
+    })
+})
+
 /**
  * 
  * @param {Request} req 
@@ -188,14 +210,16 @@ function countGuards(req, res) {
  * @param {Response} res 
  */
 async function retrieveGuardDataFromFirebase(req, res) {
+
     let data = await (function () {
         return new Promise((resolve, reject) => {
-            firebase.database().ref('/raw-locations/').on('value', snap => resolve(snap))
+            firebase.database().ref().child('raw-locations').on('value', snap => resolve(snap.val()))
         })
     })().catch(err => console.log(err))
-    console.log(data)
+
     res.end(JSON.stringify(data))
 }
+
 
 
 module.exports = {
