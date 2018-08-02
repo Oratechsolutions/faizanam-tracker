@@ -19,7 +19,19 @@
     <link href="/css/style.css" rel="stylesheet" type="text/css" />
 
     <script src="/js/modernizr.min.js"></script>
-
+<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyA0kjf60mqHVCk3w6Ao-Ts9NTmkzmUshcw",
+        authDomain: "faizanam-211422.firebaseapp.com",
+        databaseURL: "https://faizanam-211422.firebaseio.com",
+        projectId: "faizanam-211422",
+        storageBucket: "faizanam-211422.appspot.com",
+        messagingSenderId: "864721385411"
+    };
+    firebase.initializeApp(config);
+</script>
 </head>
 
 
@@ -72,7 +84,7 @@
                                         <p class="text-muted m-b-30 font-14">
                                             THIS IS WHERE YOU ADD A NEW PROFILE FOR A SECURITY GUARD
                                         </p>
-                                        <form class="" method="POST" action="/auth/register-guards-firebase" enctype="multipart/form-data">
+                                        <form class="" method="POST" action="/auth/register-guards" enctype="multipart/form-data">
                                             <div class="p-20">
                                                 <div class="form-group row">
                                                     <div class="col-6">
@@ -178,6 +190,7 @@
 
 
     <!-- jQuery  -->
+    <script type="text/javascript" src="validator.min.js"></script>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
@@ -218,21 +231,6 @@
         })
     
     </script>
-    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
-    <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyA0kjf60mqHVCk3w6Ao-Ts9NTmkzmUshcw",
-            authDomain: "faizanam-211422.firebaseapp.com",
-            databaseURL: "https://faizanam-211422.firebaseio.com",
-            projectId: "faizanam-211422",
-            storageBucket: "faizanam-211422.appspot.com",
-            messagingSenderId: "864721385411"
-        };
-        firebase.initializeApp(config);
-    </script>
-    <!-- Firebase App is always required and must be first -->
-    <script src="/__/firebase/5.2.0/firebase-app.js"></script>
     
     <!-- Add additional services that you want to use -->
     <script src="/__/firebase/5.2.0/firebase-auth.js"></script>

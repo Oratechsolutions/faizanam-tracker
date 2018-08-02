@@ -1,4 +1,5 @@
 const firebase = require("firebase")
+const admin = require("firebase-admin")
 const db = require('../config/dbconnect')
 const server = require('../app').server
 const WebSocket = require('websocket').server
@@ -6,6 +7,16 @@ const socketServer = new WebSocket({
     httpServer: server
 })
 
+//firebase intialization 
+var serviceAccount = require('../config/firebase-admin.json');
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: 'https://faizanam-211422.firebaseio.com/'
+});
+//database reference to push data to firebase
+var firebaseDb = admin.database();
+const ref = firebaseDb.ref("/server");
+//web socket for fetching coordinates 
 socketServer.on('connect', function (conn) {
     conn.on('message', function (data) {
         console.log(data)
@@ -24,9 +35,7 @@ function Login(req, res) {
         }
         // start session
         res.redirect('/pages/home')
-    })
-}
-
+    })}
 /**
  * 
  * @param {Request} req 
@@ -46,14 +55,11 @@ function Register(req, res) {
         }))
     })
 }
-
-
 /**
  * 
  * @param {Request} req 
  * @param {Response} res 
  */
-
 async function fetchEmpNo() {
     let employees = await db.queryAsync('select emp_number from security_guards order by emp_number desc').catch(err => console.log(err))
     if (employees.length < 1)
@@ -68,9 +74,19 @@ async function fetchClientId() {
     return Number(clients[0]['client_tracker_id'].split('-')[1])
 }
 
+async function generateTrackID(){
+    let tracker = await db.queryAsync('select user_id from security_guards order by user_id desc').catch(err =>console.log(err))
+    if(tracker.length < 1)
+    return 
+}
+
+
 async function addGuard(req, res) {
     let empnumber = await fetchEmpNo(),
         newEmpNumber = 'EMP-00' + (empnumber + 1)
+    let trackerid = await generateTrackID()
+        tracker_ID = 'FGT-' + (trackerid) 
+// FGT = faizanam guard tracker
 
     let credentials = {
         firstname: req.body.firstname,
@@ -80,12 +96,35 @@ async function addGuard(req, res) {
         id_number: req.body.id_number,
         dob: req.body.dob,
         profile_picture: req.file.path,
-        emp_number: newEmpNumber
+        emp_number: newEmpNumber,
+        tracker_id : tracker_ID
     }
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
+    let name = (req.body.firstname + " " +req.body.lastname)
+    let Phone = '+254' + (req.body.phone.split[0])
+    admin.auth().createUser({
+        email: req.body.email,
+        trackerID: tracker_ID,
+        emailVerified: true,
+        phoneNumber: Phone, 
+        password: "makmende",
+        displayName: name,
+        photoURL: "http://www.example.com/12345678/photo.png",
+        disabled: false
+    }).then(function (userRecord) {
+        usersRef = ref.child("/securityguards");
+        usersRef.set({
+            user: {
+                email: userRecord.email,
+                phoneNumber: userRecord.phoneNumber,
+                displayName: userRecord.displayName,
+                trackerID: tracker_ID,
+                password: userRecord.password
+            }
+        });
     })
+    .catch(function (error) {
+        console.log("Error creating new user:", error);
+    });
 
     db.query(`insert into security_guards set ?`, credentials, (result) => {
         (result.affectedRows == 1) ? res.redirect('/pages/register-guards?registeredsuccessfully'): res.end(JSON.stringify({
@@ -94,26 +133,6 @@ async function addGuard(req, res) {
     })
 }
 
-function registerGuard(phone, email, id_number, newEmpNumber) {
-    // A post entry.
-    var postData = {
-        Phone: phone,
-        Email: email,
-        ID_Number: id_number,
-        TrackerID: newEmpNumber,
-        starCount: 0
-    };
-
-    // Get a key for a new Post.
-    var newPostKey = firebase.database().ref().child('Guards').push().key;
-
-    // Write the new post's data simultaneously in the posts list and the user's post list.
-    var updates = {};
-    updates['/Guards/' + newPostKey] = postData;
-    // updates['/guards-tracking/' + uid + '/' + newPostKey] = postData;
-
-    return firebase.database().ref().update(updates);
-}
 
 /**
  * 
@@ -214,6 +233,5 @@ module.exports = {
     countGuards,
     fetchEmpNo,
     fetchClientId,
-    registerGuard,
     retrieveGuardDataFromFirebase
 }
