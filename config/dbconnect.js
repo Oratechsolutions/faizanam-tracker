@@ -42,6 +42,11 @@ class Database {
         })
 
     }
+    escape(value) {
+        if (typeof value == 'undefined')
+            throw new Error('Expects a value to escape')
+        return this.conn.escape(value)
+    }
 }
 
 module.exports = new Database()

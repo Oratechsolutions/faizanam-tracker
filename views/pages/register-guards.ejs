@@ -19,19 +19,19 @@
     <link href="/css/style.css" rel="stylesheet" type="text/css" />
 
     <script src="/js/modernizr.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
-<script>
-    // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyA0kjf60mqHVCk3w6Ao-Ts9NTmkzmUshcw",
-        authDomain: "faizanam-211422.firebaseapp.com",
-        databaseURL: "https://faizanam-211422.firebaseio.com",
-        projectId: "faizanam-211422",
-        storageBucket: "faizanam-211422.appspot.com",
-        messagingSenderId: "864721385411"
-    };
-    firebase.initializeApp(config);
-</script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyA0kjf60mqHVCk3w6Ao-Ts9NTmkzmUshcw",
+            authDomain: "faizanam-211422.firebaseapp.com",
+            databaseURL: "https://faizanam-211422.firebaseio.com",
+            projectId: "faizanam-211422",
+            storageBucket: "faizanam-211422.appspot.com",
+            messagingSenderId: "864721385411"
+        };
+        firebase.initializeApp(config);
+    </script>
 </head>
 
 
@@ -97,17 +97,20 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-6">
-                                                        <input type="email" name="email" id="example-input-normal" class="form-control" required placeholder="Enter the User Email">
+                                                        <input type="email" name="email" id="email-exists" class="form-control" required placeholder="Enter the User Email">
+                                                    <span id="error-email"></span>
                                                     </div>
 
                                                     <div class="col-6">
-                                                        <input type="number" name="phone" id="example-input-normal" class="form-control" required placeholder="Enter the User Phone Number">
+                                                        <input type="number" name="phone" id="phone-number" class="form-control" required placeholder="Enter the User Phone Number">
+                                                        <span id="error-phone"></span>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group row">
                                                     <div class="col-6">
-                                                        <input type="number" name="id_number" id="example-input-normal" class="form-control" required placeholder="Enter ID Number">
+                                                        <input type="number" name="id_number" id="id_number" class="form-control" required placeholder="Enter ID Number">
+                                                    <span id="error-id"></span>
                                                     </div>
 
                                                     <div class="col-6 input-group">
@@ -124,7 +127,7 @@
                                                     <div class="col-12">
                                                         <input type="file" name="profile_picture" class="form-control" required>
                                                     </div>
-                                                
+
                                                 </div>
 
 
@@ -138,7 +141,7 @@
                                                                                                         </div>
                                                                                                     </div> -->
                                                 <div class="form-group row">
-                                                    <button type="submit" class="btn btn-block btn-xs btn-success waves-effect waves-light">Register Guard</button>
+                                                    <button id="submitdata" disabled type="submit" class="btn btn-block btn-xs btn-success waves-effect waves-light" >Register Guard</button>
                                                 </div>
                                         </form>
                                         </div>
@@ -186,10 +189,23 @@
 
     </div>
     <!-- END wrapper -->
-
+<script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyAr4ikfOyAWrwSF8ne8ezOLLYUUrmVcY5U",
+        authDomain: "faizanam-9d154.firebaseapp.com",
+        databaseURL: "https://faizanam-9d154.firebaseio.com",
+        projectId: "faizanam-9d154",
+        storageBucket: "faizanam-9d154.appspot.com",
+        messagingSenderId: "33051109205"
+    };
+    firebase.initializeApp(config);
+</script>
 
 
     <!-- jQuery  -->
+
     <script type="text/javascript" src="validator.min.js"></script>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/popper.min.js"></script>
@@ -202,11 +218,57 @@
     <script src="/js/jquery.core.js"></script>
     <script src="/js/jquery.app.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded',function(){
-            fetch('/data/registeredguards').then(res=>res.json()).then(data=>{
+    
+    var btndisabled = true
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('phone-number').addEventListener('blur', function () {
+                fetch('/data/registeredphones?phone=' + this.value).then(res => res.json()).then(data => {
+                    if (data.length > 0) {
+                        document.getElementById('error-phone').innerHTML = "<span class='text-danger'>this phone number already exists</span>"
+                    return
+                    } 
+                document.getElementById('error-phone').innerHTML = ""
+                btndisabled = false
+                })
+            })
+            document.getElementById('email-exists').addEventListener('blur', function () {
+                fetch('/data/registeredemails?email=' + this.value).then(res => res.json()).then(data => {
+                    if (data.length > 0) {
+                        document.getElementById('error-email').innerHTML = "<span class='text-danger'>Email has already been used</span>"
+                        
+                        return
+                 } 
+                 document.getElementById('error-email').innerHTML = ""
+                 btndisabled = false
+                })
+            })
+            document.getElementById('id_number').addEventListener('blur', function () {
+                fetch('/data/registeredIDs?id_number=' + this.value).then(res => res.json()).then(data => {
+                    if (data.length > 0) {
+                        document.getElementById('error-id').innerHTML = "<span class='text-danger'>ID Number  exists </span>"
+                    return
+                }
+                    document.getElementById('error-id').innerHTML = ""
+                    btndisabled = false
+                })
+            })
+
+            Array.from(document.querySelectorAll('input')).forEach(input=>{
+                input.addEventListener('blur', function () {
+                    if (!btndisabled )
+                    document.getElementById('submitdata').removeAttribute('disabled')
+
+                
+                })
+            })
+
+
+
+
+            fetch('/data/registeredguards').then(res => res.json()).then(data => {
                 // we now have the data
                 let li = ''
-                Array.from(data).forEach(list=>{
+                Array.from(data).forEach(list => {
                     li += `
                         <div class="media m-b-20">
                             <div class="d-flex mr-3">
@@ -222,25 +284,25 @@
                         </div>
                     `
                 })
-                document.getElementById('datapick').innerHTML=li
+                document.getElementById('datapick').innerHTML = li
                 console.log(data)
             })
-        fetch('/data/incEmpNo').then(res=>res.json()).then(data =>{
+            fetch('/data/incEmpNo').then(res => res.json()).then(data => {
 
+            })
         })
-        })
-    
+
     </script>
-    
+
     <!-- Add additional services that you want to use -->
     <script src="/__/firebase/5.2.0/firebase-auth.js"></script>
     <script src="/__/firebase/5.2.0/firebase-database.js"></script>
     <script src="/__/firebase/5.2.0/firebase-messaging.js"></script>
     <script src="/__/firebase/5.2.0/firebase-functions.js"></script>
-    
+
     <!-- Comment out (or don't include) services that you don't want to use -->
     <!-- <script src="/__/firebase/5.2.0/firebase-storage.js"></script> -->
-    
+
     <script src="/__/firebase/init.js"></script>
 </body>
 

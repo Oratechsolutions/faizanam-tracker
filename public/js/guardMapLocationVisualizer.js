@@ -4,51 +4,43 @@
     f()
 })(function () {
 
-    async function mapRenderer() {
-        return await fetch('/data/retrieveGuardDataFromFirebase').then(res => res.json()).then(data => {
-            let filteredCoords = Array.from(data).map(coordinates => ({
-                lat: coordinates.lat,
-                lng: coordinates.lng
-            }))
-            return filteredCoords
+    (async function () {
+        return await fetch('/data/retrieveGuardDataFromFirebase').then(res => res.json()).then(guardCoordinatesData => {
+            let guardDetails = []
+            for (const guard in guardCoordinatesData) {
+                guardDetails.push({
+                    guardId: guard,
+                    coordinates: guardCoordinatesData[guard][guardCoordinatesData[guard].length - 1]
+                })
+            }
+            reDrawMapMarkers(guardDetails)
         })
-        return [{
-            lat: 1.2921,
-            lng: 36.8219,
-            title: 'Guard 001-GRD'
-        }, {
-            lat: 1.1921,
-            lng: 36.7800,
-            title: 'Guard 001-GRD'
-        }, {
-            lat: 1.1951,
-            lng: 36.8219,
-            title: 'Guard 001-GRD'
-        }]
+    })()
+
+    var map = new google.maps.Map(document.getElementById('guardMapLocationVisualizer'), {
+        zoom: 11,
+        center: {
+            lat: -1.389324,
+            lng: 37.7636423 // just this bit, center of the map should be one of the cordinates from incoming data
+        }
+    })
+
+    window.drawInfoWindow = content => {
+        if (typeof content == 'undefined')
+            return new google.maps.InfoWindow()
+        return new google.maps.InfoWindow({
+            content: content
+        })
     }
 
-    mapRenderer().then(async data => {
+    var markers = []
 
-        var map = new google.maps.Map(document.getElementById('guardMapLocationVisualizer'), {
-            zoom: 11,
-            center: {
-                lat: data[0].lat,
-                lng: data[0].lng
-            }
-        })
-
-        window.drawInfoWindow = content => {
-            if (typeof content == 'undefined')
-                return new google.maps.InfoWindow()
-            return new google.maps.InfoWindow({
-                content: content
-            })
-        }
-        for await (const coordinate of data) {
+    async function reDrawMapMarkers(data) {
+        for await (const guard of data) {
             var marker = new google.maps.Marker({
                 position: {
-                    lat: coordinate.lat,
-                    lng: coordinate.lng
+                    lat: guard['coordinates'].lat,
+                    lng: guard['coordinates'].lng
                 },
                 map: map,
                 draggable: true,
@@ -56,7 +48,7 @@
                 icon: {
                     url: 'https://cdn3.iconfinder.com/data/icons/softwaredemo/PNG/32x32/DrawingPin1_Blue.png'
                 },
-                title: coordinate.title
+                title: guard['coordinates'].time
             })
 
             marker.addListener('click', function () {
@@ -68,20 +60,37 @@
             })
             marker.addListener('mouseover', function () {
                 map.setCenter(this.getPosition())
-                window.drawInfoWindow('Guard 001').open(this.get('map'), this)
+                window.drawInfoWindow(data['guardId']).open(this.get('map'), this)
             })
             marker.addListener('mouseout', function () {
-                widnow.drawInfoWindow().close()
+                window.drawInfoWindow().close()
             })
+            markers.push(marker)
         }
-    })
+    }
 
     let socket = new WebSocket('ws://127.0.0.1:5000')
     socket.addEventListener('open', function (event) {
-        socket.send('Heeey')
-        console.log(event)
+        // socket open,
+        // send data to server when appropriate
     })
-    socket.addEventListener('message', function (event) {
-        console.log(event.data)
+    socket.addEventListener('message', async function (event) {
+        let guardDetails = [],
+            data = JSON.parse(event.data)
+        try {
+            for (const guard in data) {
+                guardDetails.push({
+                    guardId: guard,
+                    coordinates: data[guard][data[guard].length - 1]
+                })
+            }
+        } catch (e) {}
+
+        for await (const marker of markers) {
+            marker.setMap(null)
+            markers = []
+        }
+
+        reDrawMapMarkers(guardDetails)
     })
 })

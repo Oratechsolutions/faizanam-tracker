@@ -8,14 +8,14 @@ const socketServer = new WebSocket({
 })
 
 //firebase intialization 
-var serviceAccount = require('../config/firebase-admin.json');
+var serviceAccount = require('../config/faizanam-admin.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: 'https://faizanam-211422.firebaseio.com/'
+    databaseURL: "https://faizanam-9d154.firebaseio.com"
 });
 //database reference to push data to firebase
 var firebaseDb = admin.database();
-const ref = firebaseDb.ref("/server");
+var ref = firebaseDb.ref("/server");
 //web socket for fetching coordinates 
 socketServer.on('connect', function (conn) {
     conn.on('message', function (data) {
@@ -84,8 +84,9 @@ async function generateTrackID(){
 async function addGuard(req, res) {
     let empnumber = await fetchEmpNo(),
         newEmpNumber = 'EMP-00' + (empnumber + 1)
-    let trackerid = await generateTrackID()
-        tracker_ID = 'FGT-' + (trackerid) 
+
+    // let trackerid = await generateTrackID(),
+    //     tracker_ID = 'FGT-' + (trackerid) 
 // FGT = faizanam guard tracker
 
     let credentials = {
@@ -96,28 +97,31 @@ async function addGuard(req, res) {
         id_number: req.body.id_number,
         dob: req.body.dob,
         profile_picture: req.file.path,
-        emp_number: newEmpNumber,
-        tracker_id : tracker_ID
+        emp_number: newEmpNumber
+        // tracker_id : tracker_ID
     }
     let name = (req.body.firstname + " " +req.body.lastname)
-    let Phone = '+254' + (req.body.phone.split[0])
+    let phone_no = "+254" + credentials.phone.slice(-9)
+    // let Phone = '+254' + (req.body.phone.split[0])
     admin.auth().createUser({
         email: req.body.email,
-        trackerID: tracker_ID,
         emailVerified: true,
-        phoneNumber: Phone, 
+        phoneNumber: phone_no,
         password: "makmende",
+        trackerID: req.body.id_number,
         displayName: name,
         photoURL: "http://www.example.com/12345678/photo.png",
         disabled: false
-    }).then(function (userRecord) {
+    })
+    .then(function (userRecord) {
         usersRef = ref.child("/securityguards");
+        uid= userRecord.uid
+        console.log(userRecord)
         usersRef.set({
-            user: {
+            uid: {
                 email: userRecord.email,
                 phoneNumber: userRecord.phoneNumber,
-                displayName: userRecord.displayName,
-                trackerID: tracker_ID,
+                displayName: userRecord.displayName|| "",
                 password: userRecord.password
             }
         });
@@ -211,6 +215,39 @@ function countGuards(req, res) {
  * @param {Request} req 
  * @param {Response} res 
  */
+function registeredPhones(req, res) {
+    db.query(`select phone from security_guards where phone=${db.escape(req.query.phone)}`, (results) => {
+        res.end(JSON.stringify(results))
+    })
+}
+
+/**
+ * 
+ * @param {Request} req 
+ * @param {Response} res 
+ */
+function registeredEmails(req, res) {
+    db.query(`select email from security_guards where email=${db.escape(req.query.email)}`, (results) => {
+        res.end(JSON.stringify(results))
+    })
+}
+
+/**
+ * 
+ * @param {Request} req 
+ * @param {Response} res 
+ */
+function registeredIDS(req, res) {
+    db.query(`select id_number from security_guards where id_number=${db.escape(req.query.id_number)}`, (results) => {
+        res.end(JSON.stringify(results))
+    })
+}
+
+/**
+ * 
+ * @param {Request} req 
+ * @param {Response} res 
+ */
 async function retrieveGuardDataFromFirebase(req, res) {
     let data = await (function () {
         return new Promise((resolve, reject) => {
@@ -233,5 +270,8 @@ module.exports = {
     countGuards,
     fetchEmpNo,
     fetchClientId,
+    registeredPhones,
+    registeredEmails,
+    registeredIDS,
     retrieveGuardDataFromFirebase
 }

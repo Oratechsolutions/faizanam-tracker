@@ -8,6 +8,12 @@ router.get('/registeredguards', (req, res) => {
     auth.fetchGuards(req, res)
 })
 
+router.get('/registeredphones', auth.registeredPhones)
+router.get('/registeredemails', auth.registeredEmails)
+router.get('/registeredIDs', auth.registeredIDS)
+
+
+
 router.get('/subscribedclients', (req, res) => {
     auth.fetchClients(req, res)
 })
